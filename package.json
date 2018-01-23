@@ -1,0 +1,19 @@
+{
+  "name": "int20h",
+  "version": "1.0.0",
+  "description": "Info about currencies on diff. markets",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "(https://github.com/zigutt/int20h-currencies.git)"
+  },
+  "author": "Dmitriy Petruk <mistake952@mail.ru>",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  }
+}
