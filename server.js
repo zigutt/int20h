@@ -73,8 +73,8 @@ https.get('https://api.exmo.com/v1/ticker/', res => {
 		  });
 		  res.on("end", () => {
 		    var data = JSON.parse(body);
-		    exmoCurr = [ data['BTC_USD'].buy_price, 
-		    				data['BTC_USD'].sell_price ];
+		    exmoCurr = [ data['BTC_USD'].sell_price, 
+		    				data['BTC_USD'].buy_price ];
 		    console.log("Loaded exmo");
 		  });
 		});
