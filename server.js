@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 var https = require('https');
 app.set('view engine', 'ejs');
-let krakencurr = [];
-let krakenfee = 0;
-let bittrexcurr = [];
-let bittrexfee = 0;
+let krakenCurr = [];
+let krakenFee = 0;
+let bittrexCurr = [];
+let bittrexFee = 0;
+let bitcoinCurrency;
+
+
 function updateKraken()
 {
 https.get('https://api.kraken.com/0/public/Ticker?pair=XBTUSD', res => {
@@ -16,12 +19,29 @@ https.get('https://api.kraken.com/0/public/Ticker?pair=XBTUSD', res => {
 		  });
 		  res.on("end", () => {
 		    var data = JSON.parse(body);
-		    krakencurr = [ data.result['XXBTZUSD'].a[0], 
+		    krakenCurr = [ data.result['XXBTZUSD'].a[0], 
 		    				data.result['XXBTZUSD'].b[0] ];
 		    console.log("Loaded kraken");
 		  });
 		});
 }
+function updateChart()
+{
+	https.get('https://api.blockchain.info/charts/market-price?timespan=30days&format=json', res => {
+		  res.setEncoding("utf8");
+		  let body = "";
+		  res.on("data", data => {
+		    body += data;
+		//   	console.log(body);
+		  });
+		  res.on("end", () => {
+		    var data = JSON.parse(body);
+		    bitcoinCurrency = data.values;
+		    console.log("Loaded chart");
+		  });
+		});
+}
+updateChart();
 function updateBitTrex()
 {
 https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res => {
@@ -33,7 +53,7 @@ https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res =
 		  });
 		  res.on("end", () => {
 		    var data = JSON.parse(body);
-		    bittrexcurr = [ data.result.Ask, 
+		    bittrexCurr = [ data.result.Ask, 
 		    				data.result.Bid ];
 		    console.log("Loaded bittrex");
 		  });
@@ -42,7 +62,7 @@ https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res =
 setInterval(updateKraken, 5000);
 setInterval(updateBitTrex, 5000);
 app.get('/', function (req, res) {
-    res.render('index', {krakencurr : krakencurr, bittrexcurr : bittrexcurr});
+    res.render('index', {krakencurr : krakenCurr, bittrexcurr : bittrexCurr , chart : bitcoinCurrency });
 })
 
 app.listen(8080, function () {
