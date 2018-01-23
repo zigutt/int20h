@@ -115,28 +115,32 @@ function zoomChart() {
               <th>Назва ресурсу</th>
               <th>Купівля</th>
               <th>Продаж</th>
+              <th>Комісія</th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
             <td>Kraken</td>
-            <td><%= krakencurr[0] %></td>
-            <td><%= krakencurr[1] %></td>
+            <td><%= Math.round(krakencurr[0]*100)/100 %></td>
+            <td><%= Math.round(krakencurr[1]*100)/100 %></td>
+            <td>฿0.001</td>
           </tr>
           <tr>
             <td>Bittrex</td>
-            <td><%= bittrexcurr[0] %></td>
-            <td><%= bittrexcurr[1] %></td>
+            <td><%= Math.round(bittrexcurr[0] *100)/100 %></td>
+            <td><%= Math.round(bittrexcurr[1] *100)/100 %></td>
+            <td>฿0.001</td>
           </tr>
           <tr>
-            <td>dev..</td>
-            <td>dev..</td>
-            <td>dev..</td>
+            <td>Exmo</td>
+            <td><%= Math.round(exmocurr[0] *100)/100 %></td>
+            <td><%= Math.round(exmocurr[0] *100)/100 %></td>
+            <td>฿0.001</td>
           </tr>
         </tbody>
       </table></div>
-      <br>
+           <br>
       <p>Курс Біткоіна за Blockchain charts</p>
 		<div id="chartdiv"></div>
 	</body>

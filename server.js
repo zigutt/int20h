@@ -6,6 +6,8 @@ let krakenCurr = [];
 let krakenFee = 0;
 let bittrexCurr = [];
 let bittrexFee = 0;
+let exmoCurr = [];
+let exmoFee = 0;
 let bitcoinCurrency;
 
 
@@ -42,6 +44,7 @@ function updateChart()
 		});
 }
 setInterval(updateChart, 10000);
+
 function updateBitTrex()
 {
 https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res => {
@@ -59,10 +62,28 @@ https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res =
 		  });
 		});
 }
+function updateExmo()
+{
+https.get('https://api.exmo.com/v1/ticker/', res => {
+		  res.setEncoding("utf8");
+		  let body = "";
+		  res.on("data", data => {
+		    body += data;
+		   // console.log(body);
+		  });
+		  res.on("end", () => {
+		    var data = JSON.parse(body);
+		    exmoCurr = [ data['BTC_USD'].buy_price, 
+		    				data['BTC_USD'].sell_price ];
+		    console.log("Loaded exmo");
+		  });
+		});
+}
 setInterval(updateKraken, 10000);
 setInterval(updateBitTrex, 10000);
+setInterval(updateExmo, 10000);
 app.get('/', function (req, res) {
-    res.render('index', {krakencurr : krakenCurr, bittrexcurr : bittrexCurr , chart : bitcoinCurrency });
+    res.render('index', {krakencurr : krakenCurr, bittrexcurr : bittrexCurr , exmocurr:exmoCurr, chart : bitcoinCurrency });
 })
 
 app.listen(8080, function () {
