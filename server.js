@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 var https = require('https');
-
+app.set('view engine', 'ejs');
 let krakencurr = [];
 let krakenfee = 0;
 let bittrexcurr = [];
@@ -39,10 +39,10 @@ https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res =
 		  });
 		});
 }
-setInterval(updateKraken, 3000);
-setInterval(updateBitTrex, 2000);
+setInterval(updateKraken, 5000);
+setInterval(updateBitTrex, 5000);
 app.get('/', function (req, res) {
-    res.send("Kraken (A/B): " + krakencurr + "<br>"+"BiTTrex (A/B): " + bittrexcurr + "\n");
+    res.render('index', {krakencurr : krakencurr, bittrexcurr : bittrexcurr});
 })
 
 app.listen(8080, function () {
