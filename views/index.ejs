@@ -140,6 +140,30 @@ function zoomChart() {
           </tr>
         </tbody>
       </table></div>
+       <p><% var money = 0;
+       		amount = 1;
+      		money -= amount* Math.min(bittrexcurr[0], exmocurr[0], krakencurr[0])*1.001; //купівля і виведення на баланс
+      		amount -= 0.0005; // комісія за переведення біткоінів на інший обмінник
+      		if(bittrexcurr[1] > exmocurr[1] && bittrexcurr[1] > krakencurr[1])
+      		{
+      			//fee 0.0025
+      			money += amount * bittrexcurr[1] * 0.9975;
+      		}
+      		else if(krakencurr[1] > exmocurr[1] && krakencurr[1] > bittrexcurr[1])
+      		{
+      			//fee 0.001
+      			money += amount * krakencurr[1] * 0.999;
+      		}
+      		else
+      		{
+      			//fee 0.002
+      			money += amount * exmocurr[1] * 0.998;
+      		}
+      		let b;
+      		if(money > 0)  b = "Вигідно з прибутком: " + Math.round(money*100)/100 + "$";
+      		else b = "Не вигідно";
+      		%>
+      		<%= b %></p>
            <br>
       <p>Курс Біткоіна за Blockchain charts</p>
 		<div id="chartdiv"></div>
