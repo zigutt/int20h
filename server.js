@@ -41,7 +41,7 @@ function updateChart()
 		  });
 		});
 }
-updateChart();
+setInterval(updateChart, 10000);
 function updateBitTrex()
 {
 https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res => {
@@ -59,8 +59,8 @@ https.get('https://bittrex.com/api/v1.1/public/getticker?market=USDT-BTC', res =
 		  });
 		});
 }
-setInterval(updateKraken, 5000);
-setInterval(updateBitTrex, 5000);
+setInterval(updateKraken, 10000);
+setInterval(updateBitTrex, 10000);
 app.get('/', function (req, res) {
     res.render('index', {krakencurr : krakenCurr, bittrexcurr : bittrexCurr , chart : bitcoinCurrency });
 })
